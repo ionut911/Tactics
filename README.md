@@ -1,4 +1,4 @@
-✈️ Tactics for AM4 A380-800 Plane
+✈️ Tactics for AM4 ✈️ 
 An interactive tool designed to assist with route planning, pricing strategies, and operational efficiency for the AM4 configuration of the Airbus A380-800.
 🔗 Live Demo
 Launch the app
