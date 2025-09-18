@@ -2,85 +2,88 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>K`LA!R Efficiency</title>
+  <title>K`LA!R Efficiency Dashboard</title>
   <style>
-    :root {
-      --main-bg: url('ConK.png');
-    }
+.banner {
+  text-align: center;
+  padding: 30px 20px;
+  background: linear-gradient(to right, #001f3f, #0074D9);
+  color: #FFD700;
+  box-shadow: 0 0 20px #00ffff;
+  border-bottom: 2px solid #00ffff;
+}
 
+.banner h1 {
+  font-size: 32px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.banner p {
+  font-size: 16px;
+  font-style: italic;
+  color: #ffffff;
+}
     body {
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
-      background: var(--main-bg) no-repeat center center fixed;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('ConK.png') no-repeat center center fixed;
       background-size: cover;
       color: #fff;
-      transition: background 0.5s ease-in-out;
     }
 
     .container {
-      background-color: rgba(0, 0, 0, 0.75);
+      background-color: rgba(0, 0, 0, 0.8);
       padding: 30px;
       margin: 50px auto;
-      max-width: 500px;
+      max-width: 600px;
       border-radius: 12px;
       box-shadow: 0 0 20px #00ffff;
     }
 
     h2 {
       text-align: center;
-      font-size: 24px;
+      font-size: 26px;
       margin-bottom: 20px;
       color: #00ffff;
     }
-h3 {
-text-align: center;
-      color: yellow; /* culoare albă */
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* stil informativ */
-      font-size: 14px;
-      font-weight: 500;
-      background-color: #2c2c2c; /* fundal închis pentru contrast */
-      padding: 10px;
-      border-radius: 5px;
-    }
-
-    .skycop-banner {
-      text-align: center;
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 20px;
-      color: #FFD700;
-    }
 
     label {
+      font-weight: bold;
       display: block;
-      margin: 10px 0;
+      margin-top: 15px;
     }
 
-    input {
-      padding: 8px;
+    select, input[type="number"] {
       width: 100%;
-      text-align: right;
+      padding: 10px;
+      margin-top: 5px;
       border-radius: 6px;
       border: none;
+      font-size: 16px;
     }
 
-    input[type=number]::-webkit-inner-spin-button,
-    input[type=number]::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
+    table {
+      width: 100%;
+      margin-top: 20px;
+      border-collapse: collapse;
     }
 
-    input[type=number] {
-      -moz-appearance: textfield;
+    th, td {
+      padding: 10px;
+      text-align: center;
+      background-color: #222;
+      border: 1px solid #444;
     }
 
     .calcBtn {
       background: linear-gradient(to right, #0044cc, #0088ff);
       color: white;
       border: none;
-      padding: 10px 20px;
-      margin-top: 15px;
+      padding: 12px;
+      margin-top: 20px;
       font-size: 16px;
       border-radius: 10px;
       box-shadow: 0 0 10px #00ffff;
@@ -92,210 +95,188 @@ text-align: center;
       margin-top: 20px;
       font-size: 18px;
       font-weight: bold;
-      color: #00ff99;
     }
 
     .copyBtn {
       background: #4CAF50;
       color: white;
-      display: inline-block;
-      margin: 5px 2px;
       padding: 8px 12px;
       border-radius: 6px;
       border: none;
       cursor: pointer;
+      margin: 5px;
     }
 
-    #copiedMsg {
-      margin-top: 10px;
-      color: #FFD700;
-      font-style: italic;
+    iframe {
+      border: 2px solid #00ffff;
+      border-radius: 12px;
+      box-shadow: 0 0 20px #00ffff;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="skycop-banner">🚨 K`LA!R Route Tactics For A380-800 🚨</div>
 
-    <h2>Route Prices Calculator</h2>
-<p style="color:#FFD700; font-style:italic;">
-💡 Paste the price you got from the <code>AUTO-PRICE</code> button in AM4.
-</p>
-
-
-    <label>Y class price: <input type="number" id="y" placeholder="e.g. 5898"></label>
-    <label>J class price: <input type="number" id="j" placeholder="e.g. 12016"></label>
-    <label>F class price: <input type="number" id="f" placeholder="e.g. 18383"></label>
-    <button class="calcBtn" id="calcPricesBtn">Calculate Prices</button>
-    <div class="result" id="priceResult"></div>
-    <button class="calcBtn" id="resetPricesBtn">Reset Prices</button>
-
-    <h2>Seat Configuration</h2>
-<p style="color:#FFD700; font-style:italic;">
-💡 Use the daily passenger demand numbers to fill in the seat fields. The system adjusts them with a formula and checks if your setup fits within the 600-unit limit of A380-800.
-</p>
-<button onclick="showDemandImage()" class="infoBtn">
-  📊 Example Demand
-</button>
-
-<div id="demandImageContainer" style="display:none; margin-top:20px; text-align:center;">
-  <img src="Demand scaune.png" alt="Demand Table" style="width:90%; max-width:600px; border-radius:12px; box-shadow:0 0 20px #00ffff;">
+<div class="banner">
+  <h1>🛫K`LA!R Efficiency Dashboard 🛫</h1>
+  <p>Your tactical cockpit for Aircraft Configuration, Pricing, and Live FUEL Prices.</p>
 </div>
 
-<script>
-  function showDemandImage() {
-    const container = document.getElementById("demandImageContainer");
-    container.style.display = "block";
-  }
-</script>
-
-
-
-
-    <label>Y class seats: <input type="number" id="ySeats" placeholder="e.g. 300"></label>
-    <label>J class seats: <input type="number" id="jSeats" placeholder="e.g. 100"></label>
-    <label>F class seats: <input type="number" id="fSeats" placeholder="e.g. 33"></label>
-    <button class="calcBtn" id="calcSeatsBtn">Calculate Seats</button>
-    <div class="result" id="seatResult"></div>
-    <div class="result" id="seatValidation"></div>
-
-    <button class="calcBtn" id="resetAllBtn">Reset All</button>
-    <div id="copiedMsg"></div>
+  <!-- 🎫 Universal Ticket Prices Calculator🎫  -->
+  <div class="container">
+    <h2>🎫 Universal Ticket Prices Calculator🎫 </h2>
+<p style="color:#FFD700; font-style:italic;">
+  💡 Enter the „AUTO„ ticket prices from AM4
+</p>
+    <label>Y class price: <input type="number" id="yPrice" placeholder="e.g. 5898"></label>
+    <label>J class price: <input type="number" id="jPrice" placeholder="e.g. 12016"></label>
+    <label>F class price: <input type="number" id="fPrice" placeholder="e.g. 18383"></label>
+    <button class="calcBtn" onclick="calculatePrices()">Calculate Adjusted Prices</button>
+<button class="calcBtn" onclick="resetPrices()">Reset Ticket Prices</button>
+    <div class="result" id="priceResult"></div>
   </div>
 
-  <div class="container" style="margin-top: 40px;">
-    <h2 style="text-align:center; color:#FFD700;">🌐 Live Resource Prices</h2>
-    <iframe 
-      src="https://am4-helper.web.app/tabs/prices" 
-      width="100%" 
-      height="400" 
-      style="border:2px solid #00ffff; border-radius:12px; box-shadow:0 0 20px #00ffff;">
-    </iframe>
+  <!-- ✈️  Aircraft Seat Configurator ✈️-->
+  <div class="container">
+    <h2>✈️ Aircraft Seat Configurator ✈️</h2>
+    <label for="aircraftSelect">Select Aircraft:</label>
+    <select id="aircraftSelect" onchange="updateLimit()">
+      <option value="A380">Airbus A380-800 (600 units)</option>
+      <option value="B747">Boeing B747-8 (467 units)</option>
+    </select>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Class</th>
+          <th>Passenger Demand</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Y (Economy)</td>
+          <td><input type="number" id="ySeatsDual" placeholder="e.g. 300"></td>
+        </tr>
+        <tr>
+          <td>J (Business)</td>
+          <td><input type="number" id="jSeatsDual" placeholder="e.g. 100"></td>
+        </tr>
+        <tr>
+          <td>F (First)</td>
+          <td><input type="number" id="fSeatsDual" placeholder="e.g. 33"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <button class="calcBtn" onclick="calculateDualSeats()">Calculate Configuration</button>
+<button class="calcBtn" onclick="resetSeats()">Reset Seat Configuration</button>
+
+    <div class="result" id="seatResultDual"></div>
+    <div class="result" id="seatValidationDual"></div>
+  </div>
+
+  <!-- 🌐 Live Resource Prices -->
+  <div class="container">
+    <h2>🌐 Live Resource Prices</h2>
+    <iframe src="https://am4-helper.web.app/tabs/prices" width="100%" height="400"></iframe>
   </div>
 
   <script>
-    const defaultBackground = "url('ConK.png')";
-
-    document.getElementById("calcPricesBtn").onclick = calculatePrices;
-    document.getElementById("resetPricesBtn").onclick = resetPrices;
-    document.getElementById("calcSeatsBtn").onclick = calculateSeats;
-    document.getElementById("resetAllBtn").onclick = resetAll;
-function checkSecretCodes(values) {
-      const msg = document.getElementById("copiedMsg");
-      if (values.includes(1337)) {
-        msg.textContent = "🛡️ Welcome back, Commander Echo-77. Tactical mode engaged.";
-      } else if (values.includes(9999)) {
-        document.body.style.background = "#000";
-        msg.textContent = "🕶️ Stealth Mode activated.";
-      } else if (values.includes(8008)) {
-        msg.textContent = "😏 SkyCop detected humor protocol. Proceed with caution.";
-      } else if (values.includes(420)) {
-        msg.textContent = "🌿 Chill mode activated. Calculations may drift.";
-      } else {
-        msg.textContent = "";
-      }
-      if (msg.textContent !== "") {
-        setTimeout(() => msg.textContent = "", 3000);
-      }
-    }
-
-     
-function calculatePrices() {
-      let y = parseFloat(document.getElementById("y").value);
-      let j = parseFloat(document.getElementById("j").value);
-      let f = parseFloat(document.getElementById("f").value);
+    // 🎫 Ticket Prices Logic
+    function calculatePrices() {
+      const y = parseFloat(document.getElementById("yPrice").value);
+      const j = parseFloat(document.getElementById("jPrice").value);
+      const f = parseFloat(document.getElementById("fPrice").value);
 
       if ([y, j, f].some(val => isNaN(val))) {
-        alert("Please enter valid Prices.");
+        alert("Please enter valid ticket prices.");
         return;
       }
 
-      checkSecretCodes([y, j, f]);
-
-      let y_new = Math.round(y * 1.1 - 1);
-      let j_new = Math.round(j * 1.08 - 1);
-      let f_new = Math.round(f * 1.06 - 1);
+      const y_new = Math.round(y * 1.1 - 1);
+      const j_new = Math.round(j * 1.08 - 1);
+      const f_new = Math.round(f * 1.06 - 1);
 
       document.getElementById("priceResult").innerHTML = `
         Adjusted Prices:<br>
-        Y class: ${y_new}<br>
-        J class: ${j_new}<br>
-        F class: ${f_new}<br>
-        <button class="copyBtn" onclick="copy(${y_new})">Copy Y</button>
-        <button class="copyBtn" onclick="copy(${j_new})">Copy J</button>
-        <button class="copyBtn" onclick="copy(${f_new})">Copy F</button>
+        Y class: ${y_new} <button class="copyBtn" onclick="copy(${y_new})">Copy</button><br>
+        J class: ${j_new} <button class="copyBtn" onclick="copy(${j_new})">Copy</button><br>
+        F class: ${f_new} <button class="copyBtn" onclick="copy(${f_new})">Copy</button>
       `;
     }
-function calculateSeats() {
-  let y = parseFloat(document.getElementById("ySeats").value);
-  let j = parseFloat(document.getElementById("jSeats").value);
-  let f = parseFloat(document.getElementById("fSeats").value);
 
-  if ([y, j, f].some(val => isNaN(val))) {
-    alert("Please enter valid seat numbers.");
-    return;
-  }
+    // ✈️ Seat Configurator Logic
+    let unitLimit = 600;
 
-  checkSecretCodes([y, j, f]);
+    function updateLimit() {
+      const aircraft = document.getElementById("aircraftSelect").value;
+      unitLimit = aircraft === "A380" ? 600 : 467;
+    }
 
-  // Aplicăm formula x / 3 - 1
-  let y_seat = Math.round(y / 3 - 1);
-  let j_seat = Math.round(j / 3 - 1);
-  let f_seat = Math.round(f / 3 - 1);
+    function calculateDualSeats() {
+      const y = parseFloat(document.getElementById("ySeatsDual").value);
+      const j = parseFloat(document.getElementById("jSeatsDual").value);
+      const f = parseFloat(document.getElementById("fSeatsDual").value);
 
-  const totalUnits = y_seat * 1 + j_seat * 2 + f_seat * 3;
+      if ([y, j, f].some(val => isNaN(val))) {
+        alert("Please enter valid seat numbers.");
+        return;
+      }
 
-  document.getElementById("seatResult").innerHTML = `
-    Plane Seats Configuration:<br>
-    Y class: ${y_seat}<br>
-    J class: ${j_seat}<br>
-    F class: ${f_seat}<br>
-    <button class="copyBtn" onclick="copy(${y_seat})">Copy Y</button>
-    <button class="copyBtn" onclick="copy(${j_seat})">Copy J</button>
-    <button class="copyBtn" onclick="copy(${f_seat})">Copy F</button>
-  `;
+      const y_seat = Math.round(y / 3 - 1);
+      const j_seat = Math.round(j / 3 - 1);
+      const f_seat = Math.round(f / 3 - 1);
 
-  const validationMsg = document.getElementById("seatValidation");
-  if (totalUnits < 585) {
-    validationMsg.innerHTML = `⚠️ Underutilized configuration: ${totalUnits} / 600 units used.`;
-    validationMsg.style.color = "#ffcc00";
-  } else {
-    validationMsg.innerHTML = `✅ Configuration valid: ${totalUnits} / 600 units used.`;
-    validationMsg.style.color = "#00ff99";
-  }
+      const totalUnits = y_seat * 1 + j_seat * 2 + f_seat * 3;
+
+      document.getElementById("seatResultDual").innerHTML = `
+        Seat Configuration:<br>
+        Y class: ${y_seat} <button class="copyBtn" onclick="copy(${y_seat})">Copy</button><br>
+        J class: ${j_seat} <button class="copyBtn" onclick="copy(${j_seat})">Copy</button><br>
+        F class: ${f_seat} <button class="copyBtn" onclick="copy(${f_seat})">Copy</button><br>
+        Total Units Used: ${totalUnits} / ${unitLimit}
+      `;
+
+      const msg = document.getElementById("seatValidationDual");
+      if (totalUnits > unitLimit) {
+        msg.innerHTML = `✅ Overloaded configuration — exceeds max capacity!`;
+        msg.style.color = "#00ff99";
+      } else if (totalUnits >= unitLimit * 0.9) {
+        msg.innerHTML = `⚠️ Acceptable configuration — within optimal range.`;
+        msg.style.color = "#ffcc00";
+      } else {
+        msg.innerHTML = `❌ Invalid configuration — below 90% threshold.`;
+        msg.style.color = "#ff4444";
+      }
+    }
+
+function copy(val) {
+  navigator.clipboard.writeText(val).then(() => {
+    const msg = document.createElement("div");
+    msg.textContent = `✔ ${val} copied to clipboard!`;
+    msg.style.color = "#FFD700";
+    msg.style.fontStyle = "italic";
+    msg.style.marginTop = "10px";
+    document.body.appendChild(msg);
+    setTimeout(() => msg.remove(), 1500);
+  });
+}
+function resetPrices() {
+  ["yPrice", "jPrice", "fPrice"].forEach(id => {
+    document.getElementById(id).value = "";
+  });
+  document.getElementById("priceResult").innerHTML = "";
 }
 
+function resetSeats() {
+  ["ySeatsDual", "jSeatsDual", "fSeatsDual"].forEach(id => {
+    document.getElementById(id).value = "";
+  });
+  document.getElementById("seatResultDual").innerHTML = "";
+  document.getElementById("seatValidationDual").innerHTML = "";
+}
 
-    function copy(val) {
-      navigator.clipboard.writeText(val).then(() => {
-        const msg = document.getElementById("copiedMsg");
-        msg.textContent = `✔ ${val} copied to clipboard!`;
-        setTimeout(() => msg.textContent = "", 1500);
-      });
-    }
-
-    function resetPrices() {
-      document.getElementById("y").value = "";
-      document.getElementById("j").value = "";
-      document.getElementById("f").value = "";
-      document.getElementById("priceResult").innerHTML = "";
-      document.getElementById("copiedMsg").textContent = "";
-    }
-
-    function resetAll() {
-      ["y", "j", "f", "ySeats", "jSeats", "fSeats"].forEach(id => {
-        document.getElementById(id).value = "";
-      });
-
-      document.getElementById("priceResult").innerHTML = "";
-      document.getElementById("seatResult").innerHTML = "";
-      document.getElementById("seatValidation").innerHTML = "";
-      document.getElementById("copiedMsg").textContent = "";
-
-      document.body.style.background = defaultBackground + " no-repeat center center fixed";
-      document.body.style.backgroundSize = "cover";
-    }
+    // Set aircraft limit on page load
+    window.onload = updateLimit;
   </script>
 </body>
 </html>
-
