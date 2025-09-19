@@ -26,7 +26,63 @@ iframe {
     display: block;
     margin-top: 100px;
     font-weight: bold;
-  }
+
+
+body {
+  background-color: #0a0a0a;
+  color: #00ff99;
+  font-family: 'Courier New', monospace;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  background-color: #111;
+  border: 2px solid #00ff99;
+  box-shadow: 0 0 20px #00ff99 inset, 0 0 40px #00ff99;
+  padding: 30px;
+  margin: 20px;
+  border-radius: 8px;
+}
+
+h1, h2, h3 {
+  color: #00ff99;
+  text-shadow: 0 0 5px #00ff99;
+}
+
+input, select, textarea {
+  background-color: white;
+  color: black;
+  border: 1px solid #00ff99;
+  padding: 8px;
+  margin: 5px 0;
+  font-family: 'Courier New', monospace;
+  width: 100%;
+  font-weight: bold; }
+button {
+  background-color: #00ff99;
+  color: #000;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 10px;
+  box-shadow: 0 0 10px #00ff99;
+}
+
+button:hover {
+  background-color: #00cc88;
+}
+
+.status-bar {
+  background-color: #111;
+  color: #00ff99;
+  text-align: center;
+  padding: 10px;
+  font-size: 0.9em;
+  border-top: 2px solid #00ff99;
+}
+ 
 </style>
 
 
@@ -165,17 +221,17 @@ iframe {
   <p>Your tactical cockpit for Aircraft Configuration, Pricing, and Live FUEL Prices.</p>
 </div>
 
-  <!-- 🎫 Universal Ticket Prices Calculator🎫  -->
+  <!-- 🎫 Ticket Prices Calculator🎫  -->
   <div class="container">
-    <h2>🎫 Universal Ticket Prices Calculator🎫 </h2>
+    <h2>🎫 Ticket Prices Calculator🎫 </h2>
 <p style="color:#FFD700; font-style:italic;">
-  💡 Enter the „AUTO„ ticket prices from your Route💡
+  💡 Enter the „AUTO„ ticket prices from your Route💲
 </p>
     <label>Y class price: <input type="number" id="yPrice" placeholder="e.g. 5898"></label>
     <label>J class price: <input type="number" id="jPrice" placeholder="e.g. 12016"></label>
     <label>F class price: <input type="number" id="fPrice" placeholder="e.g. 18383"></label>
-    <button class="calcBtn" onclick="calculatePrices()">Calculate Adjusted Prices</button>
-<button class="calcBtn" onclick="resetPrices()">Reset Ticket Prices</button>
+    <button class="calcBtn" onclick="calculatePrices()">Calculate Prices 💸 </button>
+<button class="calcBtn" onclick="resetPrices()">Reset Prices ♻️</button>
     <div class="result" id="priceResult"></div>
   </div>
 
@@ -195,9 +251,9 @@ iframe {
 
 
 
-<label for="manufacturerSelect">Select Manufacturer:</label>
+<label for="manufacturerSelect">🛫 Select Manufacturer:</label>
   <select id="manufacturerSelect" onchange="populateModels()">
-    <option value="">-- Select Manufacturer --</option>
+    <option value="">-- 🛫 Select Manufacturer --</option>
     <option value="Airbus">Airbus</option>
     <option value="Boeing">Boeing</option>
     <option value="Bombardier">Bombardier</option>
@@ -223,15 +279,15 @@ iframe {
     <!-- Poți adăuga și Boeing, Embraer etc. aici -->
   </select>
 
-  <label for="modelSelect">Select Aircraft Model:</label>
+  <label for="modelSelect">🛬 Select Aircraft Model:</label>
   <select id="modelSelect" onchange="updateLimitFromModel()">
-    <option value="">-- Select Model --</option>
+    <option value="">-- 🛬 Select Model --</option>
   </select>
 
-  <label for="dailyFlights">Daily Flights:  </label>
-  <input type="number" id="dailyFlights" placeholder="ex: 3">
+  <label for="dailyFlights">🌍 Daily Flights:  </label>
+  <input type="number" id="dailyFlights" placeholder="--🧭 24h divided to time per flight">
 
-<label for="dailyFlights"> ℹ️EX:If one flight takes around 10 hours and turnaround time is minimized, an A380-800 can perform up to 3 departures in 24 hours, assuming it's continuously available and operationalℹ️ </label>
+<label for="dailyFlights"> ℹ️If one flight takes around 10 hours and turnaround time is minimized, an A380-800 can perform up to 3 departures in 24 hours, assuming it's continuously available and operationalℹ️ </label>
 
   <table>
     <thead>
@@ -256,8 +312,8 @@ iframe {
     </tbody>
   </table>
 
-  <button class="calcBtn" onclick="calculateDualSeats()">Calculate Configuration</button>
-  <button class="calcBtn" onclick="resetSeats()">Reset Seat Configuration</button>
+  <button class="calcBtn" onclick="calculateDualSeats()">Calculate Seats 🧳 </button>
+  <button class="calcBtn" onclick="resetSeats()">Reset Seats ♻️</button>
 
   <div class="result" id="seatResultDual"></div>
   <div class="result" id="seatValidationDual"></div>
@@ -765,5 +821,67 @@ function searchModel() {
   <p>For verified aircraft specifications and operational standards, please consult official documentation provided by certified aviation organizations or manufacturers.</p>
 </footer>
 
+
+<footer>
+  
+  <a href="https://www.paypal.com/donate?hosted_button_id=JB3DSK9VNUKHG" target="_blank" style="
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 24px;
+    background-color: #00ff99;
+    color: #0d0d0d;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 1.1em;
+  ">
+    💚 Support This Project
+  </a>
+</footer>
+
+
+<div id="donate-button-container">
+<div id="donate-button"></div>
+<script src="https://www.paypalobjects.com/donate/sdk/donate-sdk.js" charset="UTF-8"></script>
+<script>
+PayPal.Donation.Button({
+env:'production',
+hosted_button_id:'JB3DSK9VNUKHG',
+image: {
+src:'https://www.paypalobjects.com/en_US/DK/i/btn/btn_donateCC_LG.gif',
+alt:'Donate with PayPal button',
+title:'PayPal - The safer, easier way to pay online!',
+}
+}).render('#donate-button');
+</script>
+</div>
+
+
+<div style="margin-top: 30px; text-align: center; color: #ccc;">
+    <h3 style="color: #00ff99;">🌍 Why Your Support Matters ❤️</h3>
+    <p style="max-width: 1500px; margin: 0 auto;">
+      This project was built out of pure passion for aviation and tailored especially for Airline Manager 4 players.
+      Your donation helps keep this tool alive — enabling future updates, deeper integration with AM4 data, and new features like fleet tracking and profitability dashboards.
+
+
+     🤝 Together, we keep aviation strategy open, accurate, and accessible 🫶 
+   
+  </div>
+
+
+
+
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
