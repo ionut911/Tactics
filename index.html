@@ -107,11 +107,13 @@ button:hover {
 .banner {
   text-align: center;
   padding: 30px 20px;
-  background: linear-gradient(to right, #001f3f, #0074D9);
+  background: linear-gradient(to right, rgba(101, 67, 33, 0.5), rgba(160, 82, 45, 0.5)); /* maro transparent */
   color: #FFD700;
-  box-shadow: 0 0 20px #00ffff;
-  border-bottom: 2px solid #00ffff;
+  box-shadow: 0 0 20px #aa7f4f;
+  border-bottom: 2px solid #aa7f4f;
 }
+
+
 
 .banner h1 {
   font-size: 32px;
@@ -228,18 +230,18 @@ button:hover {
 <button 
     onclick="window.location.href='beginner-guide.html'" 
     style="background-color: green; color: white; font-size: 20px; padding: 12px 24px; border: none; border-radius: 6px;">
-    Quickstart Easy Mode
+    Easy Mode Guide
   </button>
 
 <button 
     onclick="window.location.href='Guide.html'" 
     style="background-color: green; color: white; font-size: 20px; padding: 12px 24px; border: none; border-radius: 6px;">
-    Quickstart Realism Mode
+    Realism Mode Guide
   </button>
 
 
 <button 
-  onclick="window.location.href='ACHIV%20TEST.html'" 
+  onclick="window.location.href='achievements.html'" 
   style="background-color: green; color: white; font-size: 20px; padding: 12px 24px; border: none; border-radius: 6px;">
   Achievements Guide
 </button>
@@ -788,13 +790,13 @@ button:hover {
 
     const msg = document.getElementById("seatValidationDual");
     if (totalUnits > unitLimit) {
-      msg.innerHTML = `✅ Perfect configuration — exceeds max capacity!`;
+      msg.innerHTML = `✅ Good configuration👍 — exceeds max capacity!`;
       msg.style.color = "#00ff99";
     } else if (totalUnits >= unitLimit * 0.95) {
       msg.innerHTML = `⚠️ Acceptable configuration — within optimal range.`;
       msg.style.color = "#ffcc00";
     } else {
-      msg.innerHTML = `❌ Invalid configuration — below 95% threshold.`;
+      msg.innerHTML = `❌ Configuration not recommended! — below 95% usage`;
       msg.style.color = "#ff4444";
     }
   }
