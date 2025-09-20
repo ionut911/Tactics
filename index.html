@@ -7,10 +7,17 @@
 }
 
 iframe {
-  width: 100%;
-  height: 500px;
-  max-width: 100%;
+  display: block;
+  width: 100% !important;
+  max-width: 1200px;
 }
+
+.card {
+  max-width: 1200px !important;
+}
+
+
+
 
   #manufacturerSelect,
   #modelSelect,
@@ -352,11 +359,15 @@ button:hover {
   <div class="result" id="seatValidationDual"></div>
 </div>
 
-  <!-- 🌐 Live Resource Prices🌐 -->
-  <div class="container">
-    <h2>🌐 Live Resource Prices 🌐</h2>
-    <iframe src="https://am4-helper.web.app/tabs/prices" width="100%" height="500"></iframe>
-  </div>
+  
+<div style="max-width: 1800px; margin: auto;">
+  <h2>🌐 Live Resource Prices 🌐</h2>
+  <iframe 
+    src="https://am4-helper.web.app/tabs/prices" 
+    style="width: 100%; height: 500px; border: none;">
+  </iframe>
+</div>
+
 
   <script>
     // 🎫 Ticket Prices Logic
