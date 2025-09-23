@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Select Cargo Type</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background-image: url('cargo1.png'); /* imaginea ta */
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: white;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 0.9rem;
+      padding: 8px 16px;
+      background-color: rgba(255, 255, 255, 0.3);
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      z-index: 1000;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 10px 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+
+    .button {
+      font-size: 1rem;
+      padding: 10px 20px;
+      margin: 10px;
+      background-color: rgba(0, 0, 0, 0.6);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+
+    .button:hover {
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.5rem;
+      }
+      .button {
+        font-size: 0.9rem;
+        padding: 8px 16px;
+      }
+      .nav-button {
+        font-size: 0.8rem;
+        padding: 6px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="nav-button" href="https://ionut911.github.io/Tactics/">🏠 Home</a>
+
+  <h1>Choose Your Cargo Type</h1>
+  <button class="button" onclick="location.href='EasyCargo.html'">🧘 EasyCargo</button>
+  <button class="button" onclick="location.href='RealCargo.html'"> ⭐ RealCargo</button>
+</body>
+</html>

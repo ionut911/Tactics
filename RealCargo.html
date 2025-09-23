@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cargo RealMode</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: -1;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background-image: url('cargo2.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 90%;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      color: #01360d;
+      font-size: 28px;
+      margin-bottom: 20px;
+      text-align: center;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+    }
+
+    label {
+      font-weight: 600;
+      margin-top: 15px;
+      display: block;
+    }
+
+    input, select {
+  padding: 10px;
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  background-color: rgba(0, 0, 0, 0.6); /* fundal întunecat */
+  color: #ffffff; /* text alb */
+  font-weight: 600;
+}
+
+
+    button {
+      padding: 10px 20px;
+      background-color: #0078D4;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+
+    button:hover {
+      background-color: #005ea2;
+    }
+
+    .nav-button, .top-button {
+      display: inline-block;
+      background-color: #0078D4;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: 500;
+      margin-top: 20px;
+    }
+
+    .nav-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+    }
+
+    .nav-button:hover, .top-button:hover {
+      background-color: #005ea2;
+    }
+
+    .result {
+  margin-top: 30px;
+  background-color: rgba(0, 64, 15, 0.5); /* Verde închis, 50% transparent */
+  color: #d0eaff; /* Albastru deschis, inspirat de cer și cockpit */
+  padding: 20px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  max-width: 600px;
+}
+    
+
+    .hint {
+      font-size: 14px;
+      color: #ccc;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 600px) {
+      input, select {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="nav-button" href="https://ionut911.github.io/Tactics/">🏠 Home</a>
+
+  <div class="container">
+    <h1>📦 Cargo-RealMode 📦</h1>
+
+    <label for="aircraftSelect">Select aircraft:</label>
+    <select id="aircraftSelect" onchange="updateAircraft()"></select>
+    <div class="hint" id="flightHint"></div>
+
+    <label for="largeCargo">Large Cargo Daily Demand (lbs):</label>
+    <input type="number" id="largeCargo">
+
+    <label for="heavyCargo">Heavy Cargo Daily Demand (lbs):</label>
+    <input type="number" id="heavyCargo">
+
+    <label for="flightsPerDay">Flights per day:</label>
+    <input type="number" id="flightsPerDay">
+
+    <label for="maxCapacity">Maximum aircraft capacity (lbs):</label>
+    <input type="number" id="maxCapacity">
+
+    <div style="margin-top: 20px;">
+      <button onclick="calculateCargo()">Calculate!</button>
+      <button onclick="resetFields()">Reset</button>
+    </div>
+
+    <div class="result" id="output"></div>
+    <a class="top-button" href="#top">🔝 Back to Top</a>
+  </div>
+
+  <script>
+    const aircraftSpecs = {
+      "DC3": { km: 1650, kph: 240, lbs: 6900 },
+      "DC9": { km: 3030, kph: 896, lbs: 11950 },
+      "Bae-146-300QT": { km: 3340, kph: 747, lbs: 26455 },
+      "B727-200F": { km: 4400, kph: 800, lbs: 39800 },
+      "B-377SG": { km: 3219, kph: 467, lbs: 54500 },
+      "A310-300F": { km: 7330, kph: 850, lbs: 66000 },
+      "A400M": { km: 3298, kph: 780, lbs: 81600 },
+      "Il-76D": { km: 3650, kph: 900, lbs: 90000 },
+      "A300-600ST": { km: 4632, kph: 850, lbs: 103617 },
+      "B757-200F": { km: 5834, kph: 850, lbs: 127480 },
+      "A300-600F": { km: 4850, kph: 829, lbs: 195000 },
+      "Il-96T": { km: 5000, kph: 870, lbs: 202643 },
+      "C-17A": { km: 4480, kph: 830, lbs: 200000 },
+      "B767-300F": { km: 2410, kph: 851, lbs: 220000 },
+      "A350F": { km: 9250, kph: 945, lbs: 245000 },
+      "A330-200F": { km: 7400, kph: 871, lbs: 270000 },
+      "B777 Freighter": { km: 9070, kph: 905, lbs: 285000 },
+      "Boeing 777-300ERSF": { km: 15000, kph: 892, lbs: 295000 },
+      "B747-400F": { km: 8230, kph: 901, lbs: 300000 },
+      "B747-8F": { km: 14815, kph: 903, lbs: 303700 },
+      "An-124": { km: 5400, kph: 850, lbs: 330000 },
+      "A380-800F": { km: 10400, kph: 945, lbs: 330000 },
+      "AN-225": { km: 4000, kph: 800, lbs: 550000 }
+    };
+
+    const aircraftSelect = document.getElementById("aircraftSelect");
+    for (const name in aircraftSpecs) {
+      const option = document.createElement("option");
+      option.value = name;
+      option.textContent = name;
+      aircraftSelect.appendChild(option);
+    }
+
+    function updateAircraft() {
+      const selected = aircraftSelect.value;
+      const data = aircraftSpecs[selected];
+      const flightTime = data.km / data.kph;
+      const flightsPerDay = Math.max(1, Math.ceil(24 / flightTime));
+
+
+document.getElementById("flightsPerDay").value = flightsPerDay;
+document.getElementById("maxCapacity").value = data.lbs;
+      document.getElementById("flightHint").innerText =
+        `✈️ Estimated flights/day: ${flightsPerDay} (avg ${flightTime.toFixed(1)}h per flight)`;
+    }
+
+    function calculateCargo() {
+      const large = parseFloat(document.getElementById("largeCargo").value) || 0;
+      const heavy = parseFloat(document.getElementById("heavyCargo").value) || 0;
+      const flights = parseInt(document.getElementById("flightsPerDay").value) || 1;
+      const maxCapacity = parseFloat(document.getElementById("maxCapacity").value) || 0;
+
+      const totalDemand = large + heavy;
+      const perFlight = totalDemand / flights;
+      const largeRatio = totalDemand > 0 ? (large / totalDemand) * 100 : 0;
+      const heavyRatio = totalDemand > 0 ? (heavy / totalDemand) * 100 : 0;
+      const coverage = perFlight > 0 ? (maxCapacity / perFlight) * 100 : 0;
+      const coverageRatio = coverage;
+
+      let output = `<strong>📊 Per Flight Results:</strong><br>`;
+      output += `Large: ${largeRatio.toFixed(1)}% → ${Math.ceil(large / flights).toLocaleString()} lbs<br>`;
+      output += `Heavy: ${heavyRatio.toFixed(1)}% → ${Math.ceil(heavy / flights).toLocaleString()} lbs<br>`;
+      output += `Total per flight: ${perFlight.toFixed(2).toLocaleString()} lbs<br><br>`;
+
+if (coverageRatio >= 100) {
+  output += `<span style="color:red;">❌ Bad configuration: Aircraft covers less than 95% of total daily cargo demand. Consider less flights per day, or a larger aircraft! </span><br>`;
+} else if (coverageRatio >= 95) {
+  output += `<span style="color:blue;">ℹ️ OK configuration: Aircraft covers at least 95% of total daily cargo demand</span><br>`;
+} else {
+  output += `<span style="color:green;">✅ Good configuration: Aircraft fully covers total daily cargo demand</span><br>`;
+}
+
+      output += `<br><strong>📐 Suggested cargo distribution:</strong><br>`;
+      output += `→ ${largeRatio.toFixed(0)}% Large cargo<br>`;
+      output += `→ ${heavyRatio.toFixed(0)}% Heavy cargo`;
+
+      document.getElementById("output").innerHTML = output;
+    }
+
+    function resetFields() {
+      document.getElementById("largeCargo").value = "";
+      document.getElementById("heavyCargo").value = "";
+      document.getElementById("maxCapacity").value = "";
+      document.getElementById("output").innerHTML = "";
+      document.getElementById("flightHint").innerText = "";
+      updateAircraft();
+    }
+
+    window.onload = () => {
+      aircraftSelect.value = "B747-8F";
+      updateAircraft();
+    };
+  </script>
+
+  <footer style="margin-top: 40px; color: #ccc;">
+    &copy; 2025 Guides by K`LA!R
+  </footer>
+</body>
+</html>
+

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cargo Calculator EasyM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: -1;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", Verdana, sans-serif;
+      background-image: url('cargo2.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: #f5faff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 12px;
+      max-width: 600px;
+      width: 90%;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      color: #e6f2ff;
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-align: center;
+      text-shadow: 2px 2px 6px rgba(0,0,0,0.9);
+    }
+
+    label {
+      font-weight: 600;
+      margin-top: 15px;
+      display: block;
+      color: #ffffff;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+    }
+
+    input, select {
+      padding: 10px;
+      width: 100%;
+      max-width: 400px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+      margin-bottom: 10px;
+  background-color: rgba(0, 0, 0, 0.6); /* fundal închis */
+  color: #ffffff; /* text alb */
+  font-weight: 600;
+}
+
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #0078D4;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      margin-right: 10px;
+      font-weight: 600;
+    }
+
+    button:hover {
+      background-color: #005ea2;
+    }
+
+    .nav-button, .top-button {
+      display: inline-block;
+      background-color: #0078D4;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 20px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+
+    .nav-button {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+    }
+
+    .nav-button:hover, .top-button:hover {
+      background-color: #005ea2;
+    }
+
+    .result {
+      margin-top: 30px;
+      background-color: rgba(0, 40, 80, 0.7);
+      color: #ffffff;
+      padding: 20px;
+      border-radius: 8px;
+      font-weight: 500;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+      max-width: 600px;
+    }
+
+    .hint {
+      font-size: 14px;
+      color: #cce0ff;
+      margin-bottom: 10px;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+    }
+
+    @media (max-width: 600px) {
+      input, select {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <a class="nav-button" href="https://ionut911.github.io/Tactics/">🏠Home</a>
+  <h1>📦 Cargo EasyMode 📦</h1>
+
+  <label for="aircraftSelect">Select aircraft:</label>
+  <select id="aircraftSelect" onchange="updateCapacity()">
+    <option value="6900">DC3 – 6,900 lbs</option>
+    <option value="11950">DC9 – 11,950 lbs</option>
+    <option value="26455">Bae-146-300QT – 26,455 lbs</option>
+    <option value="39800">B727-200F – 39,800 lbs</option>
+    <option value="54500">B-377SG – 54,500 lbs</option>
+    <option value="66000">A310-300F – 66,000 lbs</option>
+    <option value="81600">A400M – 81,600 lbs</option>
+    <option value="90000">Il-76D – 90,000 lbs</option>
+    <option value="103617">A300-600ST – 103,617 lbs</option>
+    <option value="127480">B757-200F – 127,480 lbs</option>
+    <option value="195000">A300-600F – 195,000 lbs</option>
+    <option value="202643">Il-96T – 202,643 lbs</option>
+    <option value="200000">C-17A – 200,000 lbs</option>
+    <option value="220000">B767-300F – 220,000 lbs</option>
+    <option value="245000">A350F – 245,000 lbs</option>
+    <option value="270000">A330-200F – 270,000 lbs</option>
+    <option value="285000">B777 Freighter – 285,000 lbs</option>
+    <option value="295000">Boeing 777-300ERSF – 295,000 lbs</option>
+    <option value="300000">B747-400F – 300,000 lbs</option>
+    <option value="303700">B747-8F – 303,700 lbs</option>
+    <option value="330000">An-124 – 330,000 lbs</option>
+    <option value="330000">A380-800F – 330,000 lbs</option>
+    <option value="550000">AN-225 – 550,000 lbs</option>
+  </select>
+  <div class="hint" id="flightHint"></div>
+
+  <label for="largeDemand">Large cargo demand (lbs):</label>
+  <input type="number" id="largeDemand">
+
+  <label for="heavyDemand">Heavy cargo demand (lbs):</label>
+  <input type="number" id="heavyDemand">
+
+  <label for="flightsPerDay">Flights per day:</label>
+  <input type="number" id="flightsPerDay">
+
+  <label for="maxCapacity">Maximum aircraft capacity (lbs):</label>
+  <input type="number" id="maxCapacity" readonly>
+
+  <div style="margin-top: 20px;">
+    <button onclick="calculateFullFlight()">Calculate!</button>
+    <button onclick="resetFields()">Reset</button>
+  </div>
+
+  <div class="result" id="output"></div>
+  <a class="top-button" href="#top">🔝 Back to Top</a>
+
+  <script>
+    const flightDurations = {
+      "6900": 2.5, "11950": 2.5, "26455": 3, "39800": 3.5, "54500": 4,
+      "66000": 5, "81600": 5, "90000": 5, "103617": 5.5, "127480": 5.5,
+      "195000": 6, "202643": 6, "200000": 6, "220000": 6, "245000": 6,
+      "270000": 6, "285000": 6.5, "295000": 6.5, "300000": 6.5, "303700": 6.5,
+      "330000": 7, "550000": 8
+    };
+
+    function updateCapacity() {
+      const selected = document.getElementById("aircraftSelect").value;
+      const duration = parseFloat(flightDurations[selected]);
+
+      if (!duration) {
+        document.getElementById("flightHint").innerText = "⚠️ Unknown aircraft duration.";
+        return;
+      }
+
+      const defaultFlights = Math.floor(24 / duration);
+      const capacity = parseInt(selected);
+
+      document.getElementById("maxCapacity").value = capacity;
+      document.getElementById("flightsPerDay").value = defaultFlights;
+      document.getElementById("flightHint").innerText =
+        `✈️ Estimated flights/day: ${defaultFlights} (avg ${duration}h → ${defaultFlights * duration}h total)`;
+    }
+
+    function calculateFullFlight() {
+      const large = parseFloat(document.getElementById("largeDemand").value) || 0;
+      const heavy = parseFloat(document.getElementById("heavyDemand").value) || 0;
+      const flights = parseInt(document.getElementById("flightsPerDay").value) || 1;
+      const maxCapacity = parseFloat(document.getElementById("maxCapacity").value) || 0;
+
+      const largePerFlight = large / flights;
+      const heavyPerFlight = heavy / flights;
+      const totalPerFlight = largePerFlight + heavyPerFlight;
+
+      const largeRatio = (largePerFlight / totalPerFlight) * 100;
+      const heavyRatio = (heavyPerFlight / totalPerFlight) * 100;
+      const coverageRatio = (maxCapacity / totalPerFlight) * 100;
+
+      let output = `<strong>📊 Per Flight Results:</strong><br>`;
+      output += `Large: ${largePerFlight.toFixed(2)} lbs → ${largeRatio.toFixed(2)}%<br>`;
+      output += `Heavy: ${heavyPerFlight.toFixed(2)} lbs → ${heavyRatio.toFixed(2)}%<br>`;
+      output += `Total cargo: ${totalPerFlight.toFixed(2)} lbs<br><br>`;
+
+  if (coverageRatio >= 100) {
+  output += `<span style="color:red;">❌ Bad configuration: Aircraft covers less than 95% of total daily cargo demand. Consider less flights per day, or a larger aircraft! </span><br>`;
+} else if (coverageRatio >= 95) {
+  output += `<span style="color:blue;">ℹ️ OK configuration: Aircraft covers at least 95% of total daily cargo demand</span><br>`;
+} else {
+  output += `<span style="color:green;">✅ Good configuration: Aircraft fully covers total daily cargo demand</span><br>`;
+}
+
+      output += `<br><strong>📐 Suggested cargo distribution:</strong><br>`;
+      output += `→ ${largeRatio.toFixed(0)}% Large cargo<br>`;
+      output += `→ ${heavyRatio.toFixed(0)}% Heavy cargo`;
+
+      document.getElementById("output").innerHTML = output;
+    }
+
+    function resetFields() {
+      document.getElementById("largeDemand").value = "";
+      document.getElementById("heavyDemand").value = "";
+      document.getElementById("flightsPerDay").value = "";
+      document.getElementById("aircraftSelect").selectedIndex = 0;
+      document.getElementById("output").innerHTML = "";
+      document.getElementById("flightHint").innerText = "";
+      updateCapacity();
+    }
+
+    window.onload = updateCapacity;
+  </script>
+</body>
+</html>
